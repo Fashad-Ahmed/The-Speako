@@ -1,9 +1,11 @@
 The Speako
 ==============================
-
-Speech Recognition and Translation
 <img src="./img.jpeg" />
-Project Organization
+
+## About Project
+------------
+
+## Project Organization
 ------------
 
     ├── LICENSE
@@ -47,4 +49,24 @@ Project Organization
 
 --------
 
-<p><small>Project based on the <a target="_blank" href="https://drivendata.github.io/cookiecutter-data-science/">cookiecutter data science project template</a>. #cookiecutterdatascience</small></p>
+
+## Transcription
+------------
+
+<a src="https://huggingface.co/facebook/wav2vec2-large-960h-lv60-self">facebook/wav2vec2-large-960h-lv60-self</a>
+
+## Translation
+------------
+
+<a src="https://huggingface.co/Helsinki-NLP/opus-mt-en-ur">Helsinki-NLP/opus-mt-en-ur</a>
+
+## Keywords Extraction
+------------
+
+<a src="https://maartengr.github.io/KeyBERT/">KeyBERT</a>
+
+## License
+------------
+[MIT](https://choosealicense.com/licenses/mit/)
+
+
