@@ -1,0 +1,897 @@
+import numpy as np
+import pandas as pd
+import librosa
+import IPython.display as display
+
+import neptune.new as neptune
+
+run = neptune.init(
+    project="fashadahmed/The-Speako",
+    api_token="eyJhcGlfYWRkcmVzcyI6Imh0dHBzOi8vYXBwLm5lcHR1bmUuYWkiLCJhcGlfdXJsIjoiaHR0cHM6Ly9hcHAubmVwdHVuZS5haSIsImFwaV9rZXkiOiJhMjM5NDllYi0yNzMxLTQyZTUtODMzMS1lZDIwZThkNWU2M2MifQ==",
+)  # your credentials
+
+params = {"learning_rate": 0.001, "optimizer": "Adam"}
+run["parameters"] = params
+
+for epoch in range(10):
+    run["train/loss"].log(0.9 ** epoch)
+
+run["eval/f1_score"] = 0.66
+
+run.stop()
+
+!pip install jiwer
+
+import jiwer
+
+audio_array = [
+                '/content/audio0.flac',
+                '/content/audio1.flac',
+                '/content/audio2.flac',
+                '/content/audio4.flac',
+                '/content/audio5.flac',
+                '/content/audio6.flac',
+                '/content/audio7.flac',
+                '/content/audio8.flac',
+                '/content/audio9.flac',
+                '/content/audio10.flac',
+                '/content/audio11.flac',
+                '/content/audio12.flac',
+                '/content/audio13.flac',               
+]
+
+desired_result = [ 
+                  'i will look for you i will find you and i will kill you ',
+  'a year ago were hit with a virus that was met with silence and spread unchecked denials for days weeks then months that led to more deaths more infections more stress and more loneliness photos and viteos from ',
+  "mister president doctor byden madam vice president mister mhof americans and the world when day comes we ask ourselves where can we find light in this never ending shade the loss we carry a sea we must wade we've braved the belly of the beast we've learned that quiet isn't always peace in the norms and notions of what just is isn't always just is and yet the on as ours before we knew it somehow we do it somehow we've weathered and witnessed a nation that isn't broken but simply unfinished we the successors of a country and a time were a skinny black girl descended from slaves and raised by a single mother can dream of becoming president only to find herself reciting for one and yes we are far from polished far from pestine but that doesn't mean we are striving to form a union that is perfect we are striving to forge our union with purpose to compose a country committed to all cultures colors characters and conditions of man and so we lift our gaze not to what stands between us but what stands for us we close the divide because we know to put our future first we must first put our differences aside we lay down our arms so we can reach out our arms to one another we seek harm to none and harmony for all let the globe if nothing else say this is true that even as we grieved we grew that even as we hurt we hoped that even as we tired we tried that will forever be tied together victorious not because we will never again know defeat but because we will never again so division scripture tells us to envision that everyone shall sit under ther own vine and fig tree and no one shall make them afraid if we're to live up to our own time then victory won't lie in the blade but in all the bridges we've made that is the promised glade the hill we climb if only we dare it because being american is more than a pride we inherit it's the past we step into and how we repair it we've seen a forest that would shatter ou nation rather than share it would dest our country if it meant delaying democracy and this effort very nearly succeeded but while democracy can be periodically delayed it can never be permanently defeated in this truth in this faith we trust for while we have our eyes on the future history has its eyes on us this is the era of just redemption we feared at iis deception we did not feel prepared to be the heirs of such a terrifying hour but within it we found the power to author a new chapter to offer hope and laughter to selfe so while once we asked how could we possibly prevail over catastrophe now we assert how could catastrophe possibly prevail over us we will not march back to what was but move to what shall be a country that is bruised but whole benevolent but bold fierce and free we will not be turned around or interrupted by intimidation because we know our inaction and inertia will be the inheritance of the next generation our blunders become their dance but one thing is certain if we merge mercy with might in might with right then love becomes our legacy in change our children's birthright so let us leave behind a country better the one we left with every breath from my bronze pounded chest we will raise this wounded world into a wondrous one we will rise from the gold limbed hills of the west we will rise from the wind swept northeast where our forefathers first realized revolution we will rise from the lake rimmed cities of the midwestern states we will rise from the sun baked south ubl rebuild reconcile and recover ind every known nook of our nation an every corner called our country our people diverse and beautiful will emerge battered and beautiful when day comes we step out of the shade aflame and unafraid the new bllooms as we free it for there is always light if only we're brave enough to see it if only we're brave enough to be it ",
+  "london has a diverse range of people and cultures and more than three hundred languages are spoken in the region the world makes it easy to create vidios and audio files with life like audio from text get started with british english text to speech free select from one of our text to speech british english male and female voices below and enter some text to create the audio ",
+  "shortly it turns out you need to adjust pipeline a little bit take a CTC pipeline the pipeline is responsible for connecting the neural network model with all non differential transformation features extraction and prediction decoding ",
+  "populism is an issue in many countries many develop countries particularly and i think they can see some of the reasons for it because there is a divide between the elites and the masses of the population the populatioplat population feel that the system has not been fair to them they have not got their share of the efforts they have put into it that they have been left behind at least relatively and not just that it has been unequal but that they are not getting the respect and the status which they feel that they deserve as citizens in the country certainly i think that sentiment is very strong in donald trump's supporters you would see that in the people who voted for brexet in england you would see that in the yellow vests in france in the national front a national party supporters who vote for marie le pen and you see that in other countries too i would say even in hong kong that you could describe the what the demonstrators and protesters want as a kind of populism that system not working for me let's express our unhappiness we can spend a long time discussing what went wrong which led to that in the countries where i think what in singapore we have tried very hard to do to avoid being in that position is to have a government which focuses very much on the basic needs of the people so we talkd about housing just now how we make sure that everybody in singapore can afford to buy a house with maybe twenty per cent of his income and between him and his wife they can afford to buy a house and have an asset we talk briefly about health care how we've got a health care system which provides good service good health services to everybody and even if you are poor there are schemes to help you and you will not be denied medical care which you need it's not free is not automatic but it is available and it works we didn't talk about education but education is a very important part of it to make sure that everybody feels that if you can make the effort if you will make the effort you can do and you can advance in life and your family can go with you and advance in life and having graduated from school or university or polytechnic that there'll be opportunities for you to continue to upbrade yourself renew your skills learn new jobs and equip yourself to cope with new demands because you graduate at the age of twenty but you may be working for fifty sixty years after that and you need to uptat your skirts you can't read sixty years time depending on what you learnt sixty years ago is not te the world will have changed many times so in ways we have tried to make sure that people have basic needs met aspirations achievable and a sense that this is theirs this is their country that they they have every reason to be proud of it and they will defend their system and they will defend their and if we can do that and that they can adopt this system as this is my system it works for me there's no need for you to go and vote for a team which will pull a system down because the system is working for you why do you want to pull it down but it calls for high quality political leadership high quality civil service and not just competence but conviction and commitment that you believe you are doing this for a purpose which is not just to advance your own career or make your own fortune  ",
+  "critical that vaccines are rolled out quickly across the world but even with vaccines the pendemic is far from being quelled the new variants discovered in the uk and south africa and brazil are worrying and further mutations will surely emerge until a large part of the world's population is vaccinated we still need strong public health measures everywhere to suppress the spread of the wireless and keep population safe what will the post covet nineteen world look like will countries emerge more resolved to build a more resilient but still globalized world or are we headed towards a less integrated global economy a less stable international order the answer depends on the decisions that countries take now even before cove nineteen globalization was already under pressure confidence in multi laturalin ",
+  "This is what middle aged crisis looks like. you are making less than you need, work pressure, unsecured future, you are worried about your mom dad's health, you are concerned about your siblings' responsibility. you are under pressure for social validation, the girl you like went out of the league, and your social life went down to zero. when you look around there is no one to support instead everyone is thinking about taking advantage of you and your situation, things you like don't excite you anymore. after everything, all you think is life goes on",
+  'enormous stress only unprecedented levels of emergency spending and budgetary stimulus have kept us afloat providing a life line to companies workers and families central banks have played their part to prevent financial systems and global capital markets from seizing up unlike in s crisis these extraordinary measures cannot be sustained indefinitely in fact spending packages are already tapering off but hopefully as vaccination becomes more widespread and we make headway suppressing the virus covert nineteen restrictions can be progressively eased and economies will rebound the world bank and i may forecast global growth to recover this year it will not restore output to precover nineteen levels but is something still to be thankful for now we are entering a new phase ',
+  "this is sophie sophie is choosing her home learning course",
+  "create a better version of yourself",
+  "we are raising three hundred and fifty thousand pounds",
+  "to help you prepare for your test"    
+]
+
+
+def model_one(audio_file):
+  import librosa
+  import torch
+  from transformers import Wav2Vec2ForCTC, Wav2Vec2Tokenizer
+  
+  def asr_transcript(tokenizer, model, audio_file):
+    transcript = ""
+
+    # Stream over 20 seconds chunks
+    stream = librosa.stream(
+        audio_file, block_length=20, frame_length=16000, hop_length=16000
+    )
+
+    for speech in stream:
+        if len(speech.shape) > 1:
+            speech = speech[:, 0] + speech[:, 1]
+
+        input_values = tokenizer(speech, return_tensors="pt").input_values
+        logits = model(input_values).logits
+
+        predicted_ids = torch.argmax(logits, dim=-1)
+        transcription = tokenizer.decode(predicted_ids[0])
+        transcript += transcription.lower() + " "
+        
+    return transcript
+
+  tokenizer_transcribe = Wav2Vec2Tokenizer.from_pretrained("facebook/wav2vec2-large-960h-lv60-self")
+  model_transcribe = Wav2Vec2ForCTC.from_pretrained("facebook/wav2vec2-large-960h-lv60-self")
+  
+  %%time
+  poet = asr_transcript(tokenizer_transcribe, model_transcribe, audio_file)
+  print(poet)
+  wer_model1.append(str(poet))
+
+!pip3 install -q git+https://github.com/vasudevgupta7/gsoc-wav2vec2@main
+!sudo apt-get install -y libsndfile1-dev
+!pip3 install -q SoundFile  
+
+def model_two(data_dir):
+  import os
+  import tensorflow as tf
+  import tensorflow_hub as hub
+  from wav2vec2 import Wav2Vec2Config
+  from wav2vec2 import CTCLoss
+  import soundfile as sf
+
+  config = Wav2Vec2Config()
+  print("TF version:", tf.__version__)
+
+  pretrained_layer = hub.KerasLayer("https://tfhub.dev/vasudevgupta7/wav2vec2/1", trainable=True)
+
+  AUDIO_MAXLEN = 246000
+  LABEL_MAXLEN = 256
+  BATCH_SIZE = 2
+  
+  '''
+   we will wrap pretrained_layer & a dense layer (LM head) 
+   with the Keras's Functional API.
+  '''
+  inputs = tf.keras.Input(shape=(AUDIO_MAXLEN,))
+  hidden_states = pretrained_layer(inputs)
+  outputs = tf.keras.layers.Dense(config.vocab_size)(hidden_states)
+
+  model = tf.keras.Model(inputs=inputs, outputs=outputs)
+  model(tf.random.uniform(shape=(BATCH_SIZE, AUDIO_MAXLEN)))
+  model.summary()
+
+  LEARNING_RATE = 5e-5
+  REQUIRED_SAMPLE_RATE = 16000
+  loss_fn = CTCLoss(config, (BATCH_SIZE, AUDIO_MAXLEN), division_factor=BATCH_SIZE)
+  optimizer = tf.keras.optimizers.Adam(LEARNING_RATE)
+
+  def read_txt_file(f):
+    with open(f, "r") as f:
+      samples = f.read().split("\n")
+      samples = {s.split()[0]: " ".join(s.split()[1:]) for s in samples if len(s.split()) > 2}
+    return samples
+
+  def read_flac_file(file_path):
+    with open(file_path, "rb") as f:
+        audio, sample_rate = sf.read(f)
+    if sample_rate != REQUIRED_SAMPLE_RATE:
+        raise ValueError(
+            f"sample rate (={sample_rate}) of your files must be {REQUIRED_SAMPLE_RATE}"
+        )
+    file_id = os.path.split(file_path)[-1][:-len(".flac")]
+    return {file_id: audio}
+
+  def fetch_sound_text_mapping(data_dir):
+    all_files = os.listdir(data_dir)
+
+    flac_files = [os.path.join(data_dir, f) for f in all_files if f.endswith(".flac")]
+    txt_files = [os.path.join(data_dir, f) for f in all_files if f.endswith(".txt")]
+
+    txt_samples = {}
+    for f in txt_files:
+      txt_samples.update(read_txt_file(f))
+
+    speech_samples = {}
+    for f in flac_files:
+      speech_samples.update(read_flac_file(f))
+
+    assert len(txt_samples) == len(speech_samples)
+
+    samples = [(speech_samples[file_id], txt_samples[file_id]) for file_id in speech_samples.keys() if len(speech_samples[file_id]) < AUDIO_MAXLEN]
+    return samples
+  
+  samples = fetch_sound_text_mapping(data_dir)
+  print(samples)
+    
+
+!pip install -q transformers
+
+def model_three(audio_clip):
+  import librosa
+  import torch
+  from transformers import Wav2Vec2ForCTC, Wav2Vec2Tokenizer
+
+  audio, rate = librosa.load(audio_clip, sr = 16000)
+
+  tokenizer = Wav2Vec2Tokenizer.from_pretrained("facebook/wav2vec2-base-960h")
+  model = Wav2Vec2ForCTC.from_pretrained("facebook/wav2vec2-base-960h")
+
+  input_values = tokenizer(audio, return_tensors = "pt").input_values
+  logits = model(input_values).logits
+  prediction = torch.argmax(logits, dim = -1)
+  transcription = tokenizer.batch_decode(prediction)[0]
+  print(transcription)
+  wer_model3.append(str(transcription))
+
+!pip install deepspeech==0.8.2
+
+!wget https://github.com/mozilla/DeepSpeech/releases/download/v0.8.2/deepspeech-0.8.2-models.pbmm
+
+!wget https://github.com/mozilla/DeepSpeech/releases/download/v0.8.2/deepspeech-0.8.2-models.scorer
+
+!apt install libasound2-dev portaudio19-dev libportaudio2 libportaudiocpp0 ffmpeg
+!wget -O speech.wav https://github.com/EN10/DeepSpeech/blob/master/man1_wb.wav?raw=true
+
+
+def model_four(audio_clip):
+  from deepspeech import Model
+  import numpy as np
+  import os
+  import wave
+  import librosa
+  from IPython.display import Audio
+
+  model_file_path = 'deepspeech-0.8.2-models.pbmm'
+  lm_file_path = 'deepspeech-0.8.2-models.scorer'
+  beam_width = 100
+  lm_alpha = 0.93
+  lm_beta = 1.18
+
+  model = Model(model_file_path)
+  model.enableExternalScorer(lm_file_path)
+  model.setScorerAlphaBeta(lm_alpha, lm_beta)
+  model.setBeamWidth(beam_width)
+
+  stream = model.createStream()
+  audio_clip, rate = librosa.load(audio_clip, sr = 16000)
+
+  def read_audio_file(filename):
+    with wave.open(filename, 'rb') as w:
+            rate = w.getframerate()
+            frames = w.getnframes()
+            buffer = w.readframes(frames)
+
+    return buffer, rate
+
+  def real_time_transcription(audio_file):
+    buffer, rate = read_audio_file(audio_file)
+    offset=0
+    batch_size=8196
+    text=''
+
+    while offset < len(buffer):
+          end_offset=offset+batch_size
+          chunk=buffer[offset:end_offset]
+          data16 = np.frombuffer(chunk, dtype=np.int16)
+
+          stream.feedAudioContent(data16)
+          text=stream.intermediateDecode()
+          print(text)
+          offset=end_offset
+    return True
+
+  Audio(audio_clip)
+  real_time_transcription(audio_clip)
+
+import IPython.display as display
+display.Audio(audio_array[1] , autoplay=True)
+
+
+def testing_audio(audio_clip, clip_name):
+  print('======================== AUDIO CLIP S.N0: ', clip_name+1, " ========================")
+  print('\n')
+  print('\n')
+  print('======================== Model 1 ========================')
+  model_one(audio_clip)
+  print('\n')
+  print('======================== Model 2 ========================')
+  # model_two(audio_clip)
+  print('\n')
+  print('======================== Model 3 ========================')
+  model_three(audio_clip)
+  print('\n')
+  print('======================== Model 4 ========================')
+  # model_four(audio_clip)
+  print('\n')
+  print('\n')
+
+testing_audio(audio_array[0], 0)
+
+testing_audio(audio_array[1], 1)
+
+wer_model1 = [
+              'i will look for you i will find you and i will kill you ',
+ 'a year ago weere hit with a virus that was met with silence and spread unchecked denials for days weeks then months that led to more deaths more infections more stress and more loneliness photos and viteos from ',
+ "mister president doctor byden madam vice president mister mhof americans and the world when day comes we ask ourselves where can we find light in this never ending shade the loss we carry a sea we must wade we've braved the belly of the beast we've learned that quiet isn't always peace in the norms and notions of what just is isn't always just is and yet the on as ours before we knew it somehow we do it somehow we've weathered and witnessed a nation that isn't broken but simply unfinished we the successors of a country and a time were a skinny black girl descended from slaves and raised by a single mother can dream of becoming president only to find herself reciting for one and yes we are far from polished far from pestine but that doesn't mean we are striving to form a union that is perfect we are striving to forge our union with purpose to compose a country committed to all cultures colors characters and conditions of man and so we lift our gaze not to what stands between us but what stands for us we close the divide because we know to put our future first we must first put our differences aside we lay down our arms so we can reach out our arms to one another we seek harm to none and harmony for all let the globe if nothing else say this is true that even as we grieved we grew that even as we hurt we hoped that even as we tired we tried that will forever be tied together victorious not because we will never again know defeat but because we will never again so division scripture tells us to envision that everyone shall sit under ther own vine and fig tree and no one shall make them afraid if we're to live up to our own time then victory won't lie in the blade but in all the bridges we've made that is the promised glade the hill we climb if only we dare it because being american is more than a pride we inherit it's the past we step into and how we repair it we've seen a forest that would shatter ou nation rather than share it would dest our country if it meant delaying democracy and this effort very nearly succeeded but while democracy can be periodically delayed it can never be permanently defeated in this truth in this faith we trust for while we have our eyes on the future history has its eyes on us this is the era of just redemption we feared at iis deception we did not feel prepared to be the heirs of such a terrifying hour but within it we found the power to author a new chapter to offer hope and laughter to selfe so while once we asked how could we possibly prevail over catastrophe now we assert how could catastrophe possibly prevail over us we will not march back to what was but move to what shall be a country that is bruised but whole benevolent but bold fierce and free we will not be turned around or interrupted by intimidation because we know our inaction and inertia will be the inheritance of the next generation our blunders become their dance but one thing is certain if we merge mercy with might in might with right then love becomes our legacy in change our children's birthright so let us leave behind a country better the one we left with every breath from my bronze pounded chest we will raise this wounded world into a wondrous one we will rise from the gold limbed hills of the west we will rise from the wind swept northeast where our forefathers first realized revolution we will rise from the lake rimmed cities of the midwestern states we will rise from the sun baked south ubl rebuild reconcile and recover ind every known nook of our nation an every corner called our country our people diverse and beautiful will emerge battered and beautiful when day comes we step out of the shade aflame and unafraid the new bllooms as we free it for there is always light if only we're brave enough to see it if only we're brave enough to be it ",
+ 'london has a diverse range of people and cultures and more than three hundred languages are spoken in the region the world makes it easy to create vidios and audio files with life like audio from text get started with british english text to speech free select from one of our text to speech british english male and female voices below and enter some text to create the audio ',
+ 'ha cottacos obok catashaao atgoso co i not etage aooe o ',
+ "populism is an issue in many countries many develop countries particularly and i think they can see some of the reasons for it because there is a divide between the elites and the masses of the population the populatioplat population feel that the system has not been fair to them they have not got their share of the efforts they have put into it that they have been left behind at least relatively and not just that it has been unequal but that they are not getting the respect and the status which they feel that they deserve as citizens in the country certainly i think that sentiment is very strong in donald trump's supporters you would see that in the people who voted for brexet in england you would see that in the yellow vests in france in the national front a national party supporters who vote for marie le pen and you see that in other countries too i would say even in hong kong that you could describe the what the demonstrators and protesters want as a kind of populism that system not working for me let's express our unhappiness we can spend a long time discussing what went wrong which led to that in the countries where i think what in singapore we have tried very hard to do to avoid being in that position is to have a government which focuses very much on the basic needs of the people so we talkd about housing just now how we make sure that everybody in singapore can afford to buy a house with maybe twenty per cent of his income and between him and his wife they can afford to buy a house and have an asset we talk briefly about health care how we've got a health care system which provides good service good health services to everybody and even if you are poor there are schemes to help you and you will not be denied medical care which you need it's not free is not automatic but it is available and it works we didn't talk about education but education is a very important part of it to make sure that everybody feels that if you can make the effort if you will make the effort you can do and you can advance in life and your family can go with you and advance in life and having graduated from school or university or polytechnic that there'll be opportunities for you to continue to upbrade yourself renew your skills learn new jobs and equip yourself to cope with new demands because you graduate at the age of twenty but you may be working for fifty sixty years after that and you need to uptat your skirts you can't read sixty years time depending on what you learnt sixty years ago is not te the world will have changed many times so in ways we have tried to make sure that people have basic needs met aspirations achievable and a sense that this is theirs this is their country that they they have every reason to be proud of it and they will defend their system and they will defend their and if we can do that and that they can adopt this system as this is my system it works for me there's no need for you to go and vote for a team which will pull a system down because the system is working for you why do you want to pull it down but it calls for high quality political leadership high quality civil service and not just competence but conviction and commitment that you believe you are doing this for a purpose which is not just to advance your own career or make your own fortune  ",
+ "critical that vaccines are rolled out quickly across the world but even with vaccines the pendemic is far from being quelled the new variants discovered in the uk and south africa and brazil are worrying and further mutations will surely emerge until a large part of the world's population is vaccinated we still need strong public health measures everywhere to suppress the spread of the wireless and keep population safe what will the post covet nineteen world look like will countries emerge more resolved to build a more resilient but still globalized world or are we headed towards a less integrated global economy a less stable international order the answer depends on the decisions that countries take now even before cove nineteen globalization was already under pressure confidence in multi laturalin ",
+ "us boso o a o etoa at to sutan  es a e f o bu my mote wis tra aaer a tat ama saa to pala ",
+ 'enormous stress only unprecedented levels of emergency spending and budgetary stimulus have kept us afloat providing a life line to companies workers and families central banks have played their part to prevent financial systems and global capital markets from seizing up unlike in s crisis these extraordinary measures cannot be sustained indefinitely in fact spending packages are already tapering off but hopefully as vaccination becomes more widespread and we make headway suppressing the virus covert nineteen restrictions can be progressively eased and economies will rebound the world bank and i may forecast global growth to recover this year it will not restore output to precover nineteen levels but is something still to be thankful for now we are entering a new phase ',
+ 'lika binkleoson ',
+ 'thu sa shatos plesur ronontheevi ',
+ 'a soiinacan bige ',
+ 'ostaveca pope erson tusd '
+ ]
+
+wer = []
+mer = []
+wil = []
+
+wer_for_model_one = jiwer.wer(desired_result, wer_model1)
+mer_for_model_one = jiwer.mer(desired_result, wer_model1)
+wil_for_model_one = jiwer.wil(desired_result, wer_model1)
+
+wer.append(wer_for_model_one)
+mer.append(mer_for_model_one)
+wil.append(wil_for_model_one)
+
+wer_model3 = [
+              'I WILL LOOK FOR YOU I WILL FIND YOU  AND I WILL KILL YOU',
+ 'A YEAR AGO WERE HIT WITH A VIRUS THAT WAS MET WITH SILENCE AND SPREAD UNCHECKED THE NILES FOR DAYS WEEKS THAN MONTHS THAT LED TO MORE DEATHS MOREINFECTIONS MORE STRESS AND MORE LONELINESS FOTOS AND VIDIOS FROM TWEN',
+ '',
+ 'LONDON HAS A DIVERS RANGE OF PEOPLE AND CULTURES AND MORE THAN THREE HUNDRED LANGUAGES ARE SPOKEN IN THE REGION THE WORLD MAKES IT EASY TO CREATE VIDIOS AND AUDIOPHILES WITH LIFELIKE AUDIO FROM TEXT GET STARTED WITH BRITISH ENGLISH TEXT TO SPEECH FREE SELECT FROM ONE OF OUR TEXT TO SPEECH BRITISH ENGLISH MALE AND FEMALE VOICES BELOW AND ENTER SOME TEXT TO CREATE THE AUDIO',
+ 'SHORTLY IT TURNS OUT THAT YOU NEED TO ADJUST PIPE LINE A LITTLE BIT TAKE A LOOK AT THE C T C PIPE LINE THE PIPE LINE IS RESPONSIBLE FOR CONNECTING A NEURAL NETWORK MODEL WITH ALL NON DIFFERENTIAL TRANSFORMATIONS FEATURES EXTRACTION OR PREDICTION DE COTING',
+ '',
+ "CRITICAL THAT VAXINES ARE RULED OUT QUICKLY ACROSS THE WORLD BUT EVEN WITH VAXINES THE PANDAMIC IS FAR FROM BEING QUELLED THE NEW VARIANCE DISCOVERED AND THE YUKE IN SOUTH AFRICA AND BRASIL ARE WARRYING AND FURTHER MUTATIONS WILL SURELY EMERGE UNTIL A LARGE PART OF THE WORLD'S POPULATION IS VACCINATED WE STILL NEEDS STRONG PUBLIC HEALTH MEASURES EVERYWHERE TO SUPPRESS THE SPREAD OF THE VIOLUS AND KEEP POPULATION SAFE WHAT WILL THE POSTCOVE NINETEEN WORL LOOK LIKE WILL COUNTRIES EMERGE MORE RESOLVE TO BUILD A MORE RESILIANT BUT STILL GLOBALIZED WELL OR ARE WE HEADED TOWARDS A LESS INTEGRATED GLOBAL ECONOMY A LESS STABLE INTERNATIONAL ORDER THE ANSWER DEPENDS ON THE DECISIONS THAT COUNTRYES TAKE NOW EVEN BEFORE COVER NINETEEN GLOBILIZATION WAS ALREADY UNDER PRESSURE CONFIDENCE AND MALTILACHAL INSTIT",
+ "THIS IS WHAT MIDDLE AGHE CRISIS LOOKS LIKE YOU ARE MAKING LESS THAN YOU NEED WHAT PRESSURE AND SECURE FUTURE YOU ARE WORRIED ABOUT YOUR MOMTHS AND DEAD HEALTE YOU ARE CONCERNED ABOUT YOUR SIBBLING RESPONSIBILITY YOU ARE UNDER PRESSURE FOR SOCIAL VELUTATION TO GIRL YOU LIKE WENT OUT OF THE LEAGUE AND YOUR SOCIAL LIFE WENT DOWN TO ZEDO WHEN YOU LOOK AROUND THIT IS NO ONE TO SUPPORT INSTEAD OF EVERY ONE IS THINKING ABOUT TAKING ADVANTAGE OF YOU AND YOUR SITUATION THINGS YOU LIKE DON'T EXCITE YOU ANY MORE AFTER EVERYTHING ALL YOU THINK IS LIFE GOES ON",
+ 'NORMOUS STRESS ONLY UNPRECEDENTED LEVELS OF EMERGENCY SPENDING AND MAGETARY STIMULUS HAVE KEPT US AFLOAD PROVIDING A LIFE LINE TO COMPANIES WORKERS AND FAMILIES CENTRAL BANKS HAVE PLAYED THEIR PART TO PREVENT FINANCIAL SYSTEMS AND GLOBAL CAPITAL MARKETS FROM SEIZING UP UNLIKEN PREVIOUS CRISES THESE EXTRAORDINARY MEASURES CANNOT BE SUSTAINED INDEFINITELY IN FACT SPENDING PACKAGES ARE ALREADY TAPERING OFF BUT HOPEFULLY AS FASCINATION BECOMES MORE WIDESPREAD AND WE MAKE HEADWAY SUPPRESSING THE VIOLUS COVET NINETEEN RESTRICTIONS CAN BE PROGRESSIVELY EASE AND ECONOMIES WILL REBOW THE WORLD BANK AND I MY FORECAST GLOBAL GROWTH TO RECOVER THIS YEAR IT WILL NOT RESTORE OUTPUT TO PRICOVERNINETEEN LEVELS BUT TIS SOMETHING STILL TO BE THANKFUL FOR NOW WE ARE ENTERING A NEW PHASE',
+ 'CREATE A BETTER VERSION OF YOURSELF',
+ "THIS IS SOPHIE SOPHIE'S CHOSEN HER HOME LEARNING COUR",
+ 'WE ARE RAISING THREE HUNDRED AND FIFTY THOUSAND POUNDS TO BE',
+ 'OF THE UCHAE TO HELP YOU PREPARE FOR YOUR TEST'
+ ]
+
+wer_for_model_three = jiwer.wer(desired_result, wer_model3)
+mer_for_model_three = jiwer.mer(desired_result, wer_model3)
+wil_for_model_three = jiwer.wil(desired_result, wer_model3)
+
+wer.append(wer_for_model_three)
+mer.append(mer_for_model_three)
+wil.append(wil_for_model_three)
+
+wer
+
+mer
+
+wil
+
+# !pip install neptune-client
+
+import neptune.new as neptune
+
+run = neptune.init(
+    project="fashadahmed/The-Speako",
+    api_token="eyJhcGlfYWRkcmVzcyI6Imh0dHBzOi8vYXBwLm5lcHR1bmUuYWkiLCJhcGlfdXJsIjoiaHR0cHM6Ly9hcHAubmVwdHVuZS5haSIsImFwaV9rZXkiOiJhMjM5NDllYi0yNzMxLTQyZTUtODMzMS1lZDIwZThkNWU2M2MifQ==",
+)
+
+run['word_error_rates'] = wer
+run['match_error_rate'] = mer
+run['word_information_list'] = wil
+
+run["metrics/wav2vec2-large-960h-lv60-self/wer"] = wer[0]
+run["metrics/wav2vec2-large-960h-lv60-self/mer"] = mer[0]
+run["metrics/wav2vec2-large-960h-lv60-self/wil"] = wil[0]
+
+run["metrics/wav2vec2-base-960h/wer"] = wer[1]
+run["metrics/wav2vec2-base-960h/mer"] = mer[1]
+run["metrics/wav2vec2-base-960h/wil"] = wil[1]
+
+for epoch in range(100):
+    run["metrics/wer"].log([wer[0], wer[1]])
+    run["metrics/mer"].log([mer[0], mer[1]])
+    run["metrics/wil"].log([wil[0], wil[1]])
+
+# for american
+american_accent_wer = []
+wer_for_american_1 = jiwer.wer([
+                                desired_result[1],
+                                desired_result[2]
+                              ], [
+                                  wer_model1[1],
+                                  wer_model1[2]
+                              ])
+
+wer_for_american_2 = jiwer.wer([
+                                desired_result[1],
+                                desired_result[2]
+                              ], [
+                                  wer_model3[1],
+                                  wer_model3[2]
+                              ])
+
+american_accent_wer.append(wer_for_american_1)
+american_accent_wer.append(wer_for_american_2)
+
+# for american
+american_accent_mer = []
+mer_for_american_1 = jiwer.mer([
+                                desired_result[1],
+                                desired_result[2]
+                              ], [
+                                  wer_model1[1],
+                                  wer_model1[2]
+                              ])
+
+mer_for_american_2 = jiwer.mer([
+                                desired_result[1],
+                                desired_result[2]
+                              ], [
+                                  wer_model3[1],
+                                  wer_model3[2]
+                              ])
+
+american_accent_mer.append(mer_for_american_1)
+american_accent_mer.append(mer_for_american_2)
+
+# for american
+american_accent_wil = []
+wil_for_american_1 = jiwer.wil([
+                                desired_result[1],
+                                desired_result[2]
+                              ], [
+                                  wer_model1[1],
+                                  wer_model1[2]
+                              ])
+
+wil_for_american_2 = jiwer.wil([
+                                desired_result[1],
+                                desired_result[2]
+                              ], [
+                                  wer_model3[1],
+                                  wer_model3[2]
+                              ])
+
+american_accent_wil.append(wil_for_american_1)
+american_accent_wil.append(wil_for_american_2)
+
+run["metrics/wav2vec2-large-960h-lv60-self/accent/american/wer"] = american_accent_wer[0]
+run["metrics/wav2vec2-large-960h-lv60-self/accent/american/mer"] = american_accent_mer[0]
+run["metrics/wav2vec2-large-960h-lv60-self/accent/american/wil"] = american_accent_wil[0]
+
+
+for epoch in range(100):
+    run["charts/model1/american"].log([
+                            american_accent_wer[0],
+                            american_accent_mer[0],
+                            american_accent_wil[0]
+    ])
+
+run["metrics/wav2vec2-base-960h/accent/american/wer"] = american_accent_wer[1]
+run["metrics/wav2vec2-base-960h/accent/american/mer"] = american_accent_mer[1]
+run["metrics/wav2vec2-base-960h/accent/american/wil"] = american_accent_wil[1]
+
+
+for epoch in range(100):
+    run["charts/model2/american"].log([
+                            american_accent_wer[1],
+                            american_accent_mer[1],
+                            american_accent_wil[1]
+    ])
+
+# for irish
+irish_accent_wer = []
+wer_for_irish_1 = jiwer.wer([
+                                desired_result[0],
+                                desired_result[10],
+                                desired_result[9],
+                              ], [
+                                  wer_model1[0],
+                                  wer_model1[10],
+                                  wer_model1[9]
+                              ])
+
+wer_for_irish_2 = jiwer.wer([
+                                desired_result[0],
+                                desired_result[10],
+                                desired_result[9],
+                              ], [
+                                  wer_model3[0],
+                                  wer_model3[10],
+                                  wer_model3[9]
+                              ])
+
+irish_accent_wer.append(wer_for_irish_1)
+irish_accent_wer.append(wer_for_irish_2)
+
+
+irish_accent_mer = []
+mer_for_irish_1 = jiwer.mer([
+                                desired_result[0],
+                                desired_result[10],
+                                desired_result[9],
+                              ], [
+                                  wer_model1[0],
+                                  wer_model1[10],
+                                  wer_model1[9]
+                              ])
+
+mer_for_irish_2 = jiwer.mer([
+                                desired_result[0],
+                                desired_result[10],
+                                desired_result[9],
+                              ], [
+                                  wer_model3[0],
+                                  wer_model3[10],
+                                  wer_model3[9]
+                              ])
+
+irish_accent_mer.append(mer_for_irish_1)
+irish_accent_mer.append(mer_for_irish_2)
+
+
+irish_accent_wil = []
+wil_for_irish_1 = jiwer.wil([
+                                desired_result[0],
+                                desired_result[10],
+                                desired_result[9],
+                              ], [
+                                  wer_model1[0],
+                                  wer_model1[10],
+                                  wer_model1[9]
+                              ])
+
+wil_for_irish_2 = jiwer.wil([
+                                desired_result[0],
+                                desired_result[10],
+                                desired_result[9],
+                              ], [
+                                  wer_model3[0],
+                                  wer_model3[10],
+                                  wer_model3[9]
+                              ])
+
+irish_accent_wil.append(wil_for_irish_1)
+irish_accent_wil.append(wil_for_irish_2)
+
+run["metrics/wav2vec2-large-960h-lv60-self/accent/irish/wer"] = irish_accent_wer[0]
+run["metrics/wav2vec2-large-960h-lv60-self/accent/irish/mer"] = irish_accent_mer[0]
+run["metrics/wav2vec2-large-960h-lv60-self/accent/irish/wil"] = irish_accent_wil[0]
+
+
+for epoch in range(100):
+    run["charts/model1/irish"].log([
+                            irish_accent_wer[0],
+                            irish_accent_mer[0],
+                            irish_accent_wil[0]
+    ])
+
+run["metrics/wav2vec2-base-960h/accent/irish/wer"] = irish_accent_wer[1]
+run["metrics/wav2vec2-base-960h/accent/irish/mer"] = irish_accent_mer[1]
+run["metrics/wav2vec2-base-960h/accent/irish/wil"] = irish_accent_wil[1]
+
+
+for epoch in range(100):
+    run["charts/model2/irish"].log([
+                            irish_accent_wer[1],
+                            irish_accent_mer[1],
+                            irish_accent_wil[1]
+    ])
+
+# for british
+british_accent_wer = []
+wer_for_british_1 = jiwer.wer([
+                                desired_result[3]
+                              ], [
+                                  wer_model1[3]
+                              ])
+
+wer_for_british_2 = jiwer.wer([
+                                desired_result[3]
+                              ], [
+                                  wer_model3[3]
+                              ])
+
+british_accent_wer.append(wer_for_british_1)
+british_accent_wer.append(wer_for_british_2)
+
+
+british_accent_mer = []
+mer_for_british_1 = jiwer.mer([
+                                desired_result[3]
+                              ], [
+                                  wer_model1[3]
+                              ])
+
+mer_for_british_2 = jiwer.mer([
+                                desired_result[3]
+                              ], [
+                                  wer_model3[3]
+                              ])
+
+british_accent_mer.append(mer_for_british_1)
+british_accent_mer.append(mer_for_british_2)
+
+
+british_accent_wil = []
+wil_for_british_1 = jiwer.wil([
+                                desired_result[3]
+                              ], [
+                                  wer_model1[3]
+                              ])
+
+wil_for_british_2 = jiwer.wil([
+                                desired_result[3]
+                              ], [
+                                  wer_model3[3]
+                              ])
+
+british_accent_wil.append(wil_for_british_1)
+british_accent_wil.append(wil_for_british_2)
+
+run["metrics/wav2vec2-large-960h-lv60-self/accent/british/wer"] = british_accent_wer[0]
+run["metrics/wav2vec2-large-960h-lv60-self/accent/british/mer"] = british_accent_mer[0]
+run["metrics/wav2vec2-large-960h-lv60-self/accent/british/wil"] = british_accent_wil[0]
+
+
+for epoch in range(100):
+    run["charts/model1/british"].log([
+                            british_accent_wer[0],
+                            british_accent_mer[0],
+                            british_accent_wil[0]
+    ])
+
+run["metrics/wav2vec2-base-960h/accent/british/wer"] = british_accent_wer[1]
+run["metrics/wav2vec2-base-960h/accent/british/mer"] = british_accent_mer[1]
+run["metrics/wav2vec2-base-960h/accent/british/wil"] = british_accent_wil[1]
+
+
+for epoch in range(100):
+    run["charts/model2/british"].log([
+                            british_accent_wer[1],
+                            british_accent_mer[1],
+                            british_accent_wil[1]
+    ])
+
+# for canadian
+canadian_accent_wer = []
+wer_for_canadian_1 = jiwer.wer([
+                                desired_result[4]
+                              ], [
+                                  wer_model1[4]
+                              ])
+
+wer_for_canadian_2 = jiwer.wer([
+                                desired_result[4]
+                              ], [
+                                  wer_model3[4]
+                              ])
+
+canadian_accent_wer.append(wer_for_canadian_1)
+canadian_accent_wer.append(wer_for_canadian_2)
+
+
+canadian_accent_mer = []
+mer_for_canadian_1 = jiwer.mer([
+                                desired_result[4]
+                              ], [
+                                  wer_model1[4]
+                              ])
+
+mer_for_canadian_2 = jiwer.mer([
+                                desired_result[4]
+                              ], [
+                                  wer_model3[4]
+                              ])
+
+canadian_accent_mer.append(mer_for_canadian_1)
+canadian_accent_mer.append(mer_for_canadian_2)
+
+
+canadian_accent_wil = []
+wil_for_canadian_1 = jiwer.wil([
+                                desired_result[4]
+                              ], [
+                                  wer_model1[4]
+                              ])
+
+wil_for_canadian_2 = jiwer.wil([
+                                desired_result[4]
+                              ], [
+                                  wer_model3[4]
+                              ])
+
+canadian_accent_wil.append(wil_for_canadian_1)
+canadian_accent_wil.append(wil_for_canadian_2)
+
+run["metrics/wav2vec2-large-960h-lv60-self/accent/canadian/wer"] = canadian_accent_wer[0]
+run["metrics/wav2vec2-large-960h-lv60-self/accent/canadian/mer"] = canadian_accent_mer[0]
+run["metrics/wav2vec2-large-960h-lv60-self/accent/canadian/wil"] = canadian_accent_wil[0]
+
+
+for epoch in range(100):
+    run["charts/model1/canadian"].log([
+                            canadian_accent_wer[0],
+                            canadian_accent_mer[0],
+                            canadian_accent_wil[0]
+    ])
+
+run["metrics/wav2vec2-base-960h/accent/canadian/wer"] = canadian_accent_wer[1]
+run["metrics/wav2vec2-base-960h/accent/canadian/mer"] = canadian_accent_mer[1]
+run["metrics/wav2vec2-base-960h/accent/canadian/wil"] = canadian_accent_wil[1]
+
+
+for epoch in range(100):
+    run["charts/model2/canadian"].log([
+                            canadian_accent_wer[1],
+                            canadian_accent_mer[1],
+                            canadian_accent_wil[1]
+    ])
+
+# for asian
+asian_accent_wer = []
+wer_for_asian_1 = jiwer.wer([
+                                desired_result[5],
+                                desired_result[6],
+                                desired_result[7],
+                                desired_result[8],
+                              ], [
+                                  wer_model1[5],
+                                  wer_model1[6],
+                                  wer_model1[7],
+                                  wer_model1[8]
+                              ])
+
+wer_for_asian_2 = jiwer.wer([
+                                desired_result[5],
+                                desired_result[6],
+                                desired_result[7],
+                                desired_result[8],
+                              ], [
+                                  wer_model3[5],
+                                  wer_model3[6],
+                                  wer_model3[7],
+                                  wer_model3[8]
+                              ])
+
+asian_accent_wer.append(wer_for_asian_1)
+asian_accent_wer.append(wer_for_asian_2)
+
+
+asian_accent_mer = []
+mer_for_asian_1 = jiwer.mer([
+                                desired_result[5],
+                                desired_result[6],
+                                desired_result[7],
+                                desired_result[8],
+                              ], [
+                                  wer_model1[5],
+                                  wer_model1[6],
+                                  wer_model1[7],
+                                  wer_model1[8]
+                              ])
+
+mer_for_asian_2 = jiwer.mer([
+                                desired_result[5],
+                                desired_result[6],
+                                desired_result[7],
+                                desired_result[8],
+                              ], [
+                                  wer_model3[5],
+                                  wer_model3[6],
+                                  wer_model3[7],
+                                  wer_model3[8]
+                              ])
+
+asian_accent_mer.append(mer_for_asian_1)
+asian_accent_mer.append(mer_for_asian_2)
+
+
+asian_accent_wil = []
+wil_for_asian_1 = jiwer.wil([
+                                desired_result[5],
+                                desired_result[6],
+                                desired_result[7],
+                                desired_result[8],
+                              ], [
+                                  wer_model1[5],
+                                  wer_model1[6],
+                                  wer_model1[7],
+                                  wer_model1[8]
+                              ])
+
+wil_for_asian_2 = jiwer.wil([
+                                desired_result[5],
+                                desired_result[6],
+                                desired_result[7],
+                                desired_result[8],
+                              ], [
+                                  wer_model3[5],
+                                  wer_model3[6],
+                                  wer_model3[7],
+                                  wer_model3[8]
+                              ])
+
+asian_accent_wil.append(wil_for_asian_1)
+asian_accent_wil.append(wil_for_asian_2)
+
+run["metrics/wav2vec2-large-960h-lv60-self/accent/asian/wer"] = asian_accent_wer[0]
+run["metrics/wav2vec2-large-960h-lv60-self/accent/asian/mer"] = asian_accent_mer[0]
+run["metrics/wav2vec2-large-960h-lv60-self/accent/asian/wil"] = asian_accent_wil[0]
+
+
+for epoch in range(100):
+    run["charts/model1/asian"].log([
+                            asian_accent_wer[0],
+                            asian_accent_mer[0],
+                            asian_accent_wil[0]
+    ])
+
+run["metrics/wav2vec2-base-960h/accent/asian/wer"] = asian_accent_wer[1]
+run["metrics/wav2vec2-base-960h/accent/asian/mer"] = asian_accent_mer[1]
+run["metrics/wav2vec2-base-960h/accent/asian/wil"] = asian_accent_wil[1]
+
+
+for epoch in range(100):
+    run["charts/model2/asian"].log([
+                            asian_accent_wer[1],
+                            asian_accent_mer[1],
+                            asian_accent_wil[1]
+    ])
+
+# for african
+african_accent_wer = []
+wer_for_african_1 = jiwer.wer([
+                                desired_result[11],
+                                desired_result[12]
+                              ], [
+                                  wer_model1[11],
+                                  wer_model1[12]
+                              ])
+
+wer_for_african_2 = jiwer.wer([
+                                desired_result[11],
+                                desired_result[12]
+                              ], [
+                                  wer_model3[11],
+                                  wer_model3[12]
+                              ])
+
+african_accent_wer.append(wer_for_african_1)
+african_accent_wer.append(wer_for_african_2)
+
+
+african_accent_mer = []
+mer_for_african_1 = jiwer.mer([
+                                desired_result[11],
+                                desired_result[12]
+                              ], [
+                                  wer_model1[11],
+                                  wer_model1[12]
+                              ])
+
+mer_for_african_2 = jiwer.mer([
+                                desired_result[11],
+                                desired_result[12]
+                              ], [
+                                  wer_model3[11],
+                                  wer_model3[12]
+                              ])
+
+african_accent_mer.append(mer_for_african_1)
+african_accent_mer.append(mer_for_african_2)
+
+
+african_accent_wil = []
+wil_for_african_1 = jiwer.wil([
+                                desired_result[11],
+                                desired_result[12]
+                              ], [
+                                  wer_model1[11],
+                                  wer_model1[12]
+                              ])
+
+wil_for_african_2 = jiwer.wil([
+                                desired_result[11],
+                                desired_result[12]
+                              ], [
+                                  wer_model3[11],
+                                  wer_model3[12]
+                              ])
+
+african_accent_wil.append(wil_for_african_1)
+african_accent_wil.append(wil_for_african_2)
+
+run["metrics/wav2vec2-large-960h-lv60-self/accent/african/wer"] = african_accent_wer[0]
+run["metrics/wav2vec2-large-960h-lv60-self/accent/african/mer"] = african_accent_mer[0]
+run["metrics/wav2vec2-large-960h-lv60-self/accent/african/wil"] = african_accent_wil[0]
+
+
+for epoch in range(100):
+    run["charts/model1/african"].log([
+                            african_accent_wer[0],
+                            african_accent_mer[0],
+                            african_accent_wil[0]
+    ])
+
+run["metrics/wav2vec2-base-960h/accent/african/wer"] = african_accent_wer[1]
+run["metrics/wav2vec2-base-960h/accent/african/mer"] = african_accent_mer[1]
+run["metrics/wav2vec2-base-960h/accent/african/wil"] = african_accent_wil[1]
+
+
+for epoch in range(100):
+    run["charts/model2/african"].log([
+                            african_accent_wer[1],
+                            african_accent_mer[1],
+                            african_accent_wil[1]
+    ])
+
+run["metrics/wav2vec2-large-960h-lv60-self/time"] = "5.5 µs"
+run["metrics/wav2vec2-base-960h/time"] = "5.72 µs"
+
+
