@@ -53,17 +53,17 @@ The Speako
 ## Transcription
 ------------
 
-<a src="https://huggingface.co/facebook/wav2vec2-large-960h-lv60-self">facebook/wav2vec2-large-960h-lv60-self</a>
+[facebook/wav2vec2-large-960h-lv60-self](https://huggingface.co/facebook/wav2vec2-large-960h-lv60-self)
 
 ## Translation
 ------------
 
-<a src="https://huggingface.co/Helsinki-NLP/opus-mt-en-ur">Helsinki-NLP/opus-mt-en-ur</a>
+[Helsinki-NLP/opus-mt-en-ur](https://huggingface.co/Helsinki-NLP/opus-mt-en-ur)
 
 ## Keywords Extraction
 ------------
 
-<a src="https://maartengr.github.io/KeyBERT/">KeyBERT</a>
+[KeyBERT](https://maartengr.github.io/KeyBERT/)
 
 ## User Interface
 ------------
