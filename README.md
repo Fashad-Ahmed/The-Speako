@@ -95,9 +95,9 @@ URDU
 ## 🏡 User Setup
 
 #### ⏮️ Prerequisite
-- Account on Stremlit
+- Account on Stremlit <a href="https://streamlit.io/">click</a>
 - Docker Setup <a href="https://docs.docker.com/get-started/">click</a>
-- Account on Heroku
+- Account on Heroku <a href="https://signup.heroku.com/">click</a>
 
 You can run Docker image on your local system using
 
@@ -110,6 +110,7 @@ You can run Docker image on your local system using
     `apt-get update && apt-get install libsndfile1`
     
  For python file:
+ 
      `python app.py'
 ------------
 
