@@ -92,7 +92,7 @@ URDU
 ## 🔮 User Interface
 ------------
 
-## 🏡 User Setup
+## 🏡 Developer Setup Guide
 
 #### ⏮️ Prerequisite
 - Account on Stremlit <a href="https://streamlit.io/">click</a>
@@ -113,6 +113,7 @@ You can run Docker image on your local system using
  
      `python app.py'
 ------------
+## 🏡 Build Upon
 
 ## 📋 License
 ------------
