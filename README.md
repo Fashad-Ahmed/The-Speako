@@ -59,15 +59,15 @@ Speech recognition, also known as automatic speech recognition (ASR), computer s
 ## 📃 Transcription
 
 ### Fine-Tuning Steps:
-#### Dataset:
+####  📈 Dataset:
 - TIMIT:  is a corpus of phonemically and lexically transcribed speech of American English speakers of different genders and dialects.
-#### Preprocessing Step:
+#### 🔩 Preprocessing Step:
 - Removed irrelivant features from English dataset.In our dataset: `phonetic_detail` ,  `word_detail`, `dialect_region`, `sentence_type`, `speaker_id`)
 - Removed expressions like  \ , \ ? \ . \ ! \ - \ ; \ : \ "
 - Sampled the Audio file at 16 KHz
-#### Evaluation:
+#### 💭Evaluation:
 - Use WER (Word Error Rate)
-#### Training:
+#### 🎶 Training:
 - TRANSFORMER: We use <a href="https://huggingface.co/docs/transformers/index#:~:text=to%20get%20started-,%F0%9F%A4%97%20Transformers,training%20a%20model%20from%20scratch.">Transformers</a> from huggnig face. 
 
 - Model Use: [facebook/wav2vec2-large-960h-lv60-self](https://huggingface.co/facebook/wav2vec2-large-960h-lv60-self)
