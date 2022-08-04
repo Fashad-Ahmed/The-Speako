@@ -56,8 +56,8 @@ The Speako
 #### Dataset:
 - TIMIT:  is a corpus of phonemically and lexically transcribed speech of American English speakers of different genders and dialects.
 #### Preprocessing Step:
-- Removed irrelivant features from English dataset. (In our dataset: phonetic_detai,  word_detaid, dialect_region, sentence_type, speaker_id)
-- Removed expressions like \,\?\.\!\-\;\:\"
+- Removed irrelivant features from English dataset. (In our dataset: phonetic_detail,  word_detail, dialect_region, sentence_type, speaker_id)
+- Removed expressions like  \ , \ ? \ . \ ! \ - \ ; \ : \ "
 - Sampled the Audio file at 16 KHz
 #### Evaluation:
 - Use WER (Word Error Rate)
