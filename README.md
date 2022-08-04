@@ -6,6 +6,11 @@ The Speako
 ------------
 Speech recognition, also known as automatic speech recognition (ASR), computer speech recognition, or speech-to-text, is a capability which enables a program to process human speech into a written format.
 
+#### Features:
+- This project will let the users to transcribe there `.flac` or `.wav` **audio** file.
+- Translate the transcribtion into Urdu Language.
+- Extract the Key point of text.
+
 ## 📂 Project Organization
 ------------
 
