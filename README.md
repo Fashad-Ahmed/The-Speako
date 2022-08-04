@@ -2,10 +2,10 @@ The Speako
 ==============================
 <img src="./img.jpeg" />
 
-## About Project
+## 🚀 About Project
 ------------
 
-## Project Organization
+## 📂 Project Organization
 ------------
 
     ├── LICENSE
@@ -50,28 +50,28 @@ The Speako
 --------
 
 
-## Transcription
+## 📃 Transcription
 ------------
 
 [facebook/wav2vec2-large-960h-lv60-self](https://huggingface.co/facebook/wav2vec2-large-960h-lv60-self)
 
-## Translation
+## 🔤 Translation
 ------------
 #### Supported Language: 
 URDU
 - Translate the transcription into Urdu Language.
 - [Helsinki-NLP/opus-mt-en-ur](https://huggingface.co/Helsinki-NLP/opus-mt-en-ur)
 
-## Keywords Extraction
+## 📌 Keywords Extraction
 ------------
 
 [KeyBERT](https://maartengr.github.io/KeyBERT/)
 
-## User Interface
+## 🔮 User Interface
 ------------
 
-## License
+## 📋 License
 ------------
-[MIT](https://choosealicense.com/licenses/mit/)
+This project is licensed under the [MIT](https://choosealicense.com/licenses/mit/) License - see the `LICENSE` file for details.
 
 
