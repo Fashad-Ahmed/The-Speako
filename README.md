@@ -1,5 +1,4 @@
-The Speako
-==============================
+
 <img src="./img.jpeg" />
 
 ## 🚀 About Project 
@@ -70,7 +69,7 @@ Speech recognition, also known as automatic speech recognition (ASR), computer s
 #### 🎶 Training:
 - TRANSFORMER: We use <a href="https://huggingface.co/docs/transformers/index#:~:text=to%20get%20started-,%F0%9F%A4%97%20Transformers,training%20a%20model%20from%20scratch.">Transformers</a> from huggnig face. 
 
-- Model Use: [facebook/wav2vec2-large-960h-lv60-self](https://huggingface.co/facebook/wav2vec2-large-960h-lv60-self)
+- Model Used: [facebook/wav2vec2-large-960h-lv60-self](https://huggingface.co/facebook/wav2vec2-large-960h-lv60-self)
 ------------
 
 
@@ -80,12 +79,12 @@ Speech recognition, also known as automatic speech recognition (ASR), computer s
 #### Supported Language: 
 URDU
 - Translate the transcription into Urdu Language.
--  Model Uses: [Helsinki-NLP/opus-mt-en-ur](https://huggingface.co/Helsinki-NLP/opus-mt-en-ur)
+-  Model Used: [Helsinki-NLP/opus-mt-en-ur](https://huggingface.co/Helsinki-NLP/opus-mt-en-ur)
 ------------
 
 ## 📌 Keywords Extraction
 - Text analysis feature that automatically extracts the most used important words from a transciption. It helps summarize the content of texts and recognize the main topics discussed.
-- Model Uses: [KeyBERT](https://maartengr.github.io/KeyBERT/)
+- Model Used: [KeyBERT](https://maartengr.github.io/KeyBERT/)
 
 ------------
 
@@ -113,8 +112,20 @@ You can run Docker image on your local system using
  
      `python app.py'
 ------------
-## 🏡 Build Upon
-
+## ⚒️ Built Upon
+    - Python
+    - facebook/wav2vec2-large-960h-lv60-self
+    - Helsinki-NLP/opus-mt-en-ur
+    - KeyBERT
+    - Streamlit
+    - Docker
+    
+## 🔧 Tools Used
+    - Visual Studio Code
+    - Google Colaboratory
+    - Google Drive Mount
+    - Neptune AI
+    
 ## 📋 License
 ------------
 This project is licensed under the [MIT](https://choosealicense.com/licenses/mit/) License - see the `LICENSE` file for details.
