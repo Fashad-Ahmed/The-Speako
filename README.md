@@ -56,16 +56,18 @@ The Speako
 [facebook/wav2vec2-large-960h-lv60-self](https://huggingface.co/facebook/wav2vec2-large-960h-lv60-self)
 
 ## 🔤 Translation
-------------
+
 #### Supported Language: 
 URDU
 - Translate the transcription into Urdu Language.
 -  Model Uses: [Helsinki-NLP/opus-mt-en-ur](https://huggingface.co/Helsinki-NLP/opus-mt-en-ur)
+------------
 
 ## 📌 Keywords Extraction
-------------
 - Text analysis feature that automatically extracts the most used important words from a transciption. It helps summarize the content of texts and recognize the main topics discussed.
 - Model Uses: [KeyBERT](https://maartengr.github.io/KeyBERT/)
+
+------------
 
 ## 🔮 User Interface
 ------------
