@@ -64,7 +64,7 @@ URDU
 
 ## 📌 Keywords Extraction
 ------------
-
+Text analysis feature that automatically extracts the most used and most important words and expressions from a transciption. It helps summarize the content of texts and recognize the main topics discussed.
 [KeyBERT](https://maartengr.github.io/KeyBERT/)
 
 ## 🔮 User Interface
