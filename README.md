@@ -57,9 +57,9 @@ The Speako
 
 ## Translation
 ------------
-####Supported Language: 
+#### Supported Language: 
 URDU
-- Translate thetranscription into Urdu Language.
+- Translate the transcription into Urdu Language.
 - [Helsinki-NLP/opus-mt-en-ur](https://huggingface.co/Helsinki-NLP/opus-mt-en-ur)
 
 ## Keywords Extraction
