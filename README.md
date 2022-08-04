@@ -92,6 +92,14 @@ URDU
 ## 🔮 User Interface
 ------------
 
+## 🏡 User Setup
+
+#### prerequisite
+- Account on Stremlit
+- Docker Setup <a href="https://docs.docker.com/get-started/">click</a>
+- Account on Heroku
+------------
+
 ## 📋 License
 ------------
 This project is licensed under the [MIT](https://choosealicense.com/licenses/mit/) License - see the `LICENSE` file for details.
