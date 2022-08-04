@@ -94,10 +94,23 @@ URDU
 
 ## 🏡 User Setup
 
-#### prerequisite
+#### ⏮️ Prerequisite
 - Account on Stremlit
 - Docker Setup <a href="https://docs.docker.com/get-started/">click</a>
 - Account on Heroku
+
+You can run Docker image on your local system using
+
+    `docker pull taserx/speako:latest`
+
+    `docker run -p 8501:8501 taserx/speako:latest`
+
+    `docker exec -it <container_name> bash`
+
+    `apt-get update && apt-get install libsndfile1`
+    
+ For python file:
+     `python app.py'
 ------------
 
 ## 📋 License
