@@ -3,12 +3,12 @@
 
 ## 🚀 About Project 
 ------------
-Speech recognition, also known as automatic speech recognition (ASR), computer speech recognition, or speech-to-text, is a capability which enables a program to process human speech into a written format.
+Speech recognition, also known as automatic speech recognition (ASR), computer speech recognition, or speech-to-text, is a capability which enables a program to process human speech into a written format. The Speako is a Natural Language Processing based project built on top of stack of technologies in order to transcribe the **English** **voice** based audio files of any accent. The project further provides the facility to user to provide the **Urdu** **Translation** of that transcribed text. Lastly, it also extracts **Keywords** from that transcribed text.
 
 #### Features:
 - 🤩 This project will let the users to transcribe there `.flac` or `.wav` **audio** file.
 - 🥳 Translate the transcribtion into Urdu Language.
-- 😋 Extract the Key point of text.
+- 😋 Extract the Key points of text.
 
 ## 📂 Project Organization
 ------------
@@ -57,6 +57,8 @@ Speech recognition, also known as automatic speech recognition (ASR), computer s
 
 ## 📃 Transcription
 
+
+
 ### Fine-Tuning Steps:
 ####  📈 Dataset:
 - TIMIT:  is a corpus of phonemically and lexically transcribed speech of American English speakers of different genders and dialects.
@@ -78,7 +80,7 @@ Speech recognition, also known as automatic speech recognition (ASR), computer s
 
 #### Supported Language: 
 URDU
-- Translate the transcription into Urdu Language.
+- Translates the transcription into __Urdu__ __Language__.
 -  Model Used: [Helsinki-NLP/opus-mt-en-ur](https://huggingface.co/Helsinki-NLP/opus-mt-en-ur)
 ------------
 
@@ -90,13 +92,13 @@ URDU
 
 ## 🔮 User Interface
 ------------
-
+- The UI of the project is built using Streamlit.
+- It provides a responsive GUI presenation of the project with their respective model `results`.
 ## 🏡 Developer Setup Guide
 
 #### ⏮️ Prerequisite
-- Account on Stremlit <a href="https://streamlit.io/">click</a>
-- Docker Setup <a href="https://docs.docker.com/get-started/">click</a>
-- Account on Heroku <a href="https://signup.heroku.com/">click</a>
+- Account on <a href="https://streamlit.io/">Stremlit</a>
+- <a href="https://docs.docker.com/get-started/">Docker</a> Setup 
 
 You can run Docker image on your local system using
 
@@ -112,6 +114,7 @@ You can run Docker image on your local system using
  
      `python app.py'
 ------------
+
 ## ⚒️ Built Upon
     - Python
     - facebook/wav2vec2-large-960h-lv60-self
