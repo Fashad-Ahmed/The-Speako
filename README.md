@@ -170,10 +170,10 @@ You can run Docker image on your local system using
 ## 👥 Collaborators
 ----------
 
- - [Fashad Ahmed Siddique]("https://github.com/Fashad-Ahmed")
- - [Talha Ahmed]("https://github.com/talha-ahmed00")
- - [Taha Siddique]("https://github.com/tahasidd2000")
- - [Tashanam Shahbaz]("https://github.com/Tashanam-Shahbaz")
+ - [Fashad Ahmed Siddique](https://github.com/Fashad-Ahmed)
+ - [Talha Ahmed](https://github.com/talha-ahmed00)
+ - [Taha Siddique](https://github.com/tahasidd2000)
+ - [Tashanam Shahbaz](https://github.com/Tashanam-Shahbaz)
 
 ## 📋 License
 ------------
